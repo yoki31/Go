@@ -24,7 +24,7 @@ func TestStackLinkedList(t *testing.T) {
 
 	t.Run("Stack Push", func(t *testing.T) {
 		result := newStack.show()
-		expected := []interface{}{2, 1}
+		expected := []any{2, 1}
 		for x := range result {
 			if result[x] != expected[x] {
 				t.Errorf("Stack Push is not work, got %v but expected %v", result, expected)
@@ -73,8 +73,8 @@ func TestStackArray(t *testing.T) {
 		stackPush(3)
 
 		t.Run("Stack Push", func(t *testing.T) {
-			if !reflect.DeepEqual([]interface{}{3, 2}, stackArray) {
-				t.Errorf("Stack Push is not work we expected %v but got %v", []interface{}{3, 2}, stackArray)
+			if !reflect.DeepEqual([]any{3, 2}, stackArray) {
+				t.Errorf("Stack Push is not work we expected %v but got %v", []any{3, 2}, stackArray)
 			}
 		})
 
@@ -105,7 +105,7 @@ func TestStackArray(t *testing.T) {
 
 		t.Run("Stack Empty", func(t *testing.T) {
 			if stackEmpty() == true {
-				t.Errorf("Stack Emtpy is not work we expected %v but got %v", false, stackEmpty())
+				t.Errorf("Stack Empty is not work we expected %v but got %v", false, stackEmpty())
 			}
 
 			stackPop()
@@ -113,7 +113,7 @@ func TestStackArray(t *testing.T) {
 			stackPop()
 
 			if stackEmpty() == false {
-				t.Errorf("Stack Emtpy is not work we expected %v but got %v", true, stackEmpty())
+				t.Errorf("Stack Empty is not work we expected %v but got %v", true, stackEmpty())
 			}
 		})
 	})
@@ -161,7 +161,7 @@ func TestStackLinkedListWithList(t *testing.T) {
 
 	t.Run("Stack Empty", func(t *testing.T) {
 		if stackList.Empty() == true {
-			t.Errorf("Stack Emtpy is not work we expected %v but got %v", false, stackList.Empty())
+			t.Errorf("Stack Empty is not work we expected %v but got %v", false, stackList.Empty())
 		}
 
 		d1, err := stackList.Pop()
@@ -173,7 +173,7 @@ func TestStackLinkedListWithList(t *testing.T) {
 		}
 
 		if stackList.Empty() == false {
-			t.Errorf("Stack Emtpy is not work we expected %v but got %v", true, stackList.Empty())
+			t.Errorf("Stack Empty is not work we expected %v but got %v", true, stackList.Empty())
 		}
 	})
 }

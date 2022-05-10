@@ -8,8 +8,8 @@ import (
 var defaultCapacity uint64 = 1 << 10
 
 type node struct {
-	key   interface{}
-	value interface{}
+	key   any
+	value any
 	next  *node
 }
 
@@ -28,8 +28,17 @@ func New() *HashMap {
 	}
 }
 
+// Make creates a new HashMap instance with input size and capacity
+func Make(size, capacity uint64) HashMap {
+	return HashMap{
+		size:     size,
+		capacity: capacity,
+		table:    make([]*node, capacity),
+	}
+}
+
 // Get returns value associated with given key
-func (hm *HashMap) Get(key interface{}) interface{} {
+func (hm *HashMap) Get(key any) any {
 	node := hm.getNodeByHash(hm.hash(key))
 
 	if node != nil {
@@ -40,17 +49,17 @@ func (hm *HashMap) Get(key interface{}) interface{} {
 }
 
 // Put puts new key value in hashmap
-func (hm *HashMap) Put(key interface{}, value interface{}) interface{} {
+func (hm *HashMap) Put(key any, value any) any {
 	return hm.putValue(hm.hash(key), key, value)
 }
 
 // Contains checks if given key is stored in hashmap
-func (hm *HashMap) Contains(key interface{}) bool {
+func (hm *HashMap) Contains(key any) bool {
 	node := hm.getNodeByHash(hm.hash(key))
 	return node != nil
 }
 
-func (hm *HashMap) putValue(hash uint64, key interface{}, value interface{}) interface{} {
+func (hm *HashMap) putValue(hash uint64, key any, value any) any {
 	if hm.capacity == 0 {
 		hm.capacity = defaultCapacity
 		hm.table = make([]*node, defaultCapacity)
@@ -97,14 +106,14 @@ func (hm *HashMap) resize() {
 	}
 }
 
-func newNode(key interface{}, value interface{}) *node {
+func newNode(key any, value any) *node {
 	return &node{
 		key:   key,
 		value: value,
 	}
 }
 
-func newNodeWithNext(key interface{}, value interface{}, next *node) *node {
+func newNodeWithNext(key any, value any, next *node) *node {
 	return &node{
 		key:   key,
 		value: value,
@@ -112,7 +121,7 @@ func newNodeWithNext(key interface{}, value interface{}, next *node) *node {
 	}
 }
 
-func (hm *HashMap) hash(key interface{}) uint64 {
+func (hm *HashMap) hash(key any) uint64 {
 	h := fnv.New64a()
 	_, _ = h.Write([]byte(fmt.Sprintf("%v", key)))
 

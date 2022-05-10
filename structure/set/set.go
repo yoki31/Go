@@ -1,9 +1,12 @@
+// package set implements a Set using a golang map.
+// This implies that only the types that are accepted as valid map keys can be used as set elements.
+// For instance, do not try to Add a slice, or the program will panic.
 package set
 
 // New gives new set.
-func New(items ...interface{}) Set {
+func New(items ...any) Set {
 	st := set{
-		elements: make(map[interface{}]bool),
+		elements: make(map[any]bool),
 	}
 	for _, item := range items {
 		st.Add(item)
@@ -14,18 +17,18 @@ func New(items ...interface{}) Set {
 // Set is an interface of possible methods on 'set'.
 type Set interface {
 	// Add: adds new element to the set
-	Add(item interface{})
-	// Delete: delets the passed element from the set if present
-	Delete(item interface{})
+	Add(item any)
+	// Delete: deletes the passed element from the set if present
+	Delete(item any)
 	// Len: gives the length of the set (total no. of elements in set)
 	Len() int
-	// GetItems: gives the array( []interface{} ) of elements of the set.
-	GetItems() []interface{}
+	// GetItems: gives the array( []any ) of elements of the set.
+	GetItems() []any
 	// In: checks whether item is present in set or not.
-	In(item interface{}) bool
-	// IsSubsetOf: checks wether set is subset of set2 or not.
+	In(item any) bool
+	// IsSubsetOf: checks whether set is subset of set2 or not.
 	IsSubsetOf(set2 Set) bool
-	// IsSupersetOf: checks wether set is superset of set2 or not.
+	// IsSupersetOf: checks whether set is superset of set2 or not.
 	IsSupersetOf(set2 Set) bool
 	// Union: gives new union set of both sets.
 	// ex: [1,2,3] union [3,4,5] -> [1,2,3,4,5]
@@ -42,19 +45,19 @@ type Set interface {
 }
 
 type set struct {
-	elements map[interface{}]bool
+	elements map[any]bool
 }
 
-func (st *set) Add(value interface{}) {
+func (st *set) Add(value any) {
 	st.elements[value] = true
 }
 
-func (st *set) Delete(value interface{}) {
+func (st *set) Delete(value any) {
 	delete(st.elements, value)
 }
 
-func (st *set) GetItems() []interface{} {
-	keys := make([]interface{}, 0, len(st.elements))
+func (st *set) GetItems() []any {
+	keys := make([]any, 0, len(st.elements))
 	for k := range st.elements {
 		keys = append(keys, k)
 	}
@@ -65,7 +68,7 @@ func (st *set) Len() int {
 	return len(st.elements)
 }
 
-func (st *set) In(value interface{}) bool {
+func (st *set) In(value any) bool {
 	if _, in := st.elements[value]; in {
 		return true
 	}
